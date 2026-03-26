@@ -457,6 +457,11 @@ void setup()
 #endif
     initSPI();
 
+#if (HAS_ETHERNET && PIN_ETHERNET_SS)
+    pinMode(PIN_ETHERNET_SS, OUTPUT);
+    digitalWrite(PIN_ETHERNET_SS, 1);
+#endif
+
     OSThread::setup();
 
     fsInit();

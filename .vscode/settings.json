@@ -10,5 +10,10 @@
   },
   "[powershell]": {
     "editor.defaultFormatter": "ms-vscode.powershell"
+  },
+  "idf.port": "/dev/ttyUSB0",
+  "files.associations": {
+    "*.tcc": "cpp",
+    "istream": "cpp"
   }
 }

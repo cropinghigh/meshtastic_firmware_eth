@@ -1,6 +1,7 @@
 #include "ServerAPI.h"
 #include "Throttle.h"
 #include "configuration.h"
+#include "variant.h"
 #include <Arduino.h>
 
 static constexpr uint32_t TCP_IDLE_TIMEOUT_MS = 15 * 60 * 1000UL;
@@ -74,7 +75,7 @@ template <class T, class U> int32_t APIServerPort<T, U>::runOnce()
     if (client) {
         // Close any previous connection (see FIXME in header file)
         if (openAPI) {
-#if RAK_4631
+#if (RAK_4631 || (HAS_ETHERNET && !defined(USE_WS5500)))
             // RAK13800 Ethernet requests periodically take more time
             // This backoff addresses most cases keeping max wait < 1s
             // Reconnections are delayed by full wait time
@@ -91,7 +92,7 @@ template <class T, class U> int32_t APIServerPort<T, U>::runOnce()
         openAPI.reset(new T(client));
     }
 
-#if RAK_4631
+#if (RAK_4631 || (HAS_ETHERNET && !defined(USE_WS5500)))
     waitTime = 100;
 #endif
     return 100; // only check occasionally for incoming connections
